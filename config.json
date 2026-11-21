@@ -1,0 +1,83 @@
+{
+    "version": "0.1.2",
+    "last_updated": "2026-10-10",
+    "spinner_settings": {
+        "bg_color": [
+            0.98,
+            0.98,
+            0.98,
+            0.6
+        ],
+        "text_color": [
+            0,
+            0,
+            0,
+            1
+        ],
+        "height": 52,
+        "font_size": 13
+    },
+    "window_settings": {
+        "header_bg_color": [
+            0.15,
+            0.35,
+            0.6,
+            1
+        ],
+        "main_bg_color": [
+            0.95,
+            0.95,
+            0.95,
+            1
+        ],
+        "button_bg_color": [
+            0.2,
+            0.6,
+            0.85,
+            1
+        ],
+        "button_text_color": [
+            1,
+            1,
+            1,
+            1
+        ],
+        "error_bg_color": [
+            1,
+            0.8,
+            0.8,
+            1
+        ]
+    },
+    "app_settings": {
+        "default_directory": "/storage/emulated/0/Documents/zarin",
+        "current_file_path": "/storage/emulated/0/Documents/zarin/ball_55kw_1500rpm/ball_55kw_1500rpm.json",
+        "current_file_name": "ball_55kw_1500rpm.json",
+        "current_directory": "/storage/emulated/0/Documents/zarin/ball_55kw_1500rpm"
+    },
+    "grid_settings": {
+        "cell_size": 10,
+        "zoom_min": 0.02,
+        "zoom_max": 100.0
+    },
+    "font_settings": {
+        "main_font_size": 34,
+        "header_font_size": 16,
+        "info_font_size": 13,
+        "big_button_font": 20
+    },
+    "connection_settings": {
+        "touch_tolerance": 80,
+        "pull_step_default": 1,
+        "pull_step_min": 1,
+        "pull_step_max": 5
+    },
+    "table_settings": {
+        "bg_alpha": 25,
+        "enabled": true
+    },
+    "slots_settings": {
+        "bg_alpha": 0,
+        "enabled": true
+    }
+}

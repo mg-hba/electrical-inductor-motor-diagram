@@ -1,0 +1,34 @@
+{
+  "current_version": "0.1.3",
+  "categories": [
+    {"id": "changelog", "title": "Version History", "icon": "version_history", "type": "tree", "folder": "changelog"},
+    {"id": "todo", "title": "TODO List", "icon": "todo", "type": "single", "file": "todo.md"},
+    {"id": "structure", "title": "Project Structure", "icon": "structure", "type": "single", "file": "structure.md"},
+    {"id": "features", "title": "Current Features", "icon": "features", "type": "single", "file": "features.md"},
+    {"id": "architecture", "title": "Architecture", "icon": "architecture", "type": "single", "file": "architecture.md"},
+    {"id": "credits", "title": "Credits", "icon": "credits", "type": "single", "file": "credits.md"}
+  ],
+  "versions": [
+    {"id": "v0.1.3", "date": "2026-11-06", "title": "Package Refactor & Edit Diagram", "file": "changelog/v0.1.3.md", "current": true},
+    {"id": "v0.1.2", "date": "2026-11-06", "title": "Export Layout, Edit Diagram, Table Fixes", "file": "changelog/v0.1.2.md"},
+    {"id": "v0.1.1.1", "date": "2026-10-16", "title": "Full Icon System", "file": "changelog/v0.1.1.1.md"},
+    {"id": "v0.1.1", "date": "2026-10-10", "title": "Button Icons & Full Refactor", "file": "changelog/v0.1.1.md"},
+    {"id": "v0.1.0", "date": "2026-10-09", "title": "Major Architecture Rewrite", "file": "changelog/v0.1.0.md"},
+    {"id": "v0.0.9.3", "date": "2026-10-07", "title": "Smart Landing", "file": "changelog/v0.0.9.3.md"},
+    {"id": "v0.0.9.2", "date": "2026-10-06", "title": "Group Separation", "file": "changelog/v0.0.9.2.md"},
+    {"id": "v0.0.9.1", "date": "2026-10-03", "title": "Connection Improvements", "file": "changelog/v0.0.9.1.md"},
+    {"id": "v0.0.9", "date": "2026-10-01", "title": "Connection Mode & Coil Patterns", "file": "changelog/v0.0.9.md"},
+    {"id": "v0.0.8.1", "date": "2026-09-28", "title": "Draw Style & Coils per Pole", "file": "changelog/v0.0.8.1.md"},
+    {"id": "v0.0.8", "date": "2026-09-28", "title": "Unified Theme & Restructured", "file": "changelog/v0.0.8.md"},
+    {"id": "v0.0.7.2", "date": "2026-09-27", "title": "Backend Architecture", "file": "changelog/v0.0.7.2.md"},
+    {"id": "v0.0.7.1", "date": "2026-09-27", "title": "Project Folder", "file": "changelog/v0.0.7.1.md"},
+    {"id": "v0.0.6", "date": "2025-05-23", "title": "Final Release", "file": "changelog/v0.0.6.md"},
+    {"id": "v0.0.5.2", "date": "2025-05-19", "title": "Focus Management", "file": "changelog/v0.0.5.2.md"},
+    {"id": "v0.0.5.1", "date": "2025-05-16", "title": "Paper Size Integration", "file": "changelog/v0.0.5.1.md"},
+    {"id": "v0.0.5", "date": "2025-05-15", "title": "Open/Save & Project Setup", "file": "changelog/v0.0.5.md"},
+    {"id": "v0.0.4", "date": "2025-05-14", "title": "Performance and UX", "file": "changelog/v0.0.4.md"},
+    {"id": "v0.0.3", "date": "2025-05-07", "title": "Vector Export and UI", "file": "changelog/v0.0.3.md"},
+    {"id": "v0.0.2", "date": "2025-04-30", "title": "Enhanced Visualization", "file": "changelog/v0.0.2.md"},
+    {"id": "v0.0.1", "date": "2025-04-23", "title": "Initial Release", "file": "changelog/v0.0.1.md"}
+  ]
+}

@@ -1,0 +1,104 @@
+================================================================================
+Motor Winding Diagram - Version Information
+================================================================================
+Version: 0.1.3
+Release Date: 2026-11-06
+Author: Zarin Tile Factory
+Senior Developer: Eng. Moteshare
+Junior Developer: Mahdi Ghasemi
+================================================================================
+
+HIGHLIGHTS FOR 0.1.3
+--------------------
+- Package refactor: app/, core/base_diagram/, dialogs/project_setup/
+- Edit Diagram mode with diamonds at x = -1
+- Main and phase diagram shift (stored in JSON)
+- Connection shift follows Edit Diagram shift
+- Export full page (no zoom) with scale = 1.0
+- Independent export line width / font size scale
+- Table layout inside info_area
+- Table row types: header / body / comment
+- Coil span conversion formula fixed
+- Connection rounding removed (allows diagonal shift alignment)
+
+================================================================================
+FILE INDEX
+================================================================================
+main0.1.3.py
+version.py
+requirements.txt
+TODO.md
+README.md
+config.json
+version_info.txt
+
+app/
+    main_app.py
+    app_orientation.py
+    app_zoom.py
+    app_diagram_widget.py
+    app_main_ui.py
+    app_actions.py
+    app_menu.py
+    app_app_info.py
+    app_info_labels.py
+    app_edit_diagram.py
+    app_connection.py
+    app_connection_actions.py
+
+assets/ (icons, zarin.png, app_icon.png, lap/triangle/concentric.png)
+backends/ (base, vector_backend, null_backend)
+core/
+    base_diagram/
+        base_diagram.py
+        diagram_cutting.py
+        diagram_edit_mode.py
+        diagram_labels.py
+        diagram_table.py
+        diagram_connection.py
+    base_diagram_core.py
+    view_transform.py
+    connection/
+    rendering/
+diagrams/
+    base/
+    single_layer/
+    two_layer/
+    patterns/
+importers/
+exporters/ (vector_exporter, export_dialog)
+dialogs/
+    project_setup/
+        project_setup.py
+        setup_project_info.py
+        setup_motor_settings.py
+        setup_diagram_settings.py
+        setup_physical.py
+        setup_coil_specs.py
+        setup_paper.py
+        setup_actions.py
+        setup_wire_turns.py
+        setup_span_controls.py
+        setup_focus_chain.py
+        setup_project_data.py
+        setup_sections.py
+        setup_validation.py
+    open_save.py
+    app_info.py
+    docs_viewer.py
+    changelog_viewer.py
+    jm_setup.py
+    log_manager.py
+    motor_info.py
+    draw_style_dialog.py
+    coils_per_pole_dialog.py
+    comments_dialog.py
+    coming_soon_dialog.py
+managers/ (json_manager, debug_logger, docs_manager)
+ui/ (theme, notifications, components, icon_button,
+     connection_panel, connection_buttons, conflict_dialog,
+     main_menu, zoom_panel, edit_diagram_panel)
+utils/ (errors, constants/)
+docs/ (index.json, todo, structure, features, architecture,
+       credits, icon_list, changelog/v0.0.1.md ... v0.1.3.md)
+================================================================================

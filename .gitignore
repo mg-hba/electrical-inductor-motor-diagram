@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+.kivy/
+0.1.3.2.zip

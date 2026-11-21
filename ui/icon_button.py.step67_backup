@@ -1,0 +1,207 @@
+"""
+================================================================================
+File: ui/icon_button.py
+Purpose: Backward-compatible button factory.
+         Now delegates to button_manager internally.
+         All old calls work without change.
+
+         New API: use button_manager directly for full features.
+Version: 0.1.5
+================================================================================
+"""
+
+from kivy.metrics import dp
+
+from utils.theme import IconPaths, ButtonTheme
+from ui.button_manager import BorderButton, button_manager
+
+
+# ============================================================
+# ================== LEGACY API (backward compat) ============
+# ============================================================
+
+def get_icon_path(icon_name):
+    """
+    Get full path for an icon name.
+    (Delegates to IconPaths.)
+    """
+    return IconPaths.get_icon_path(icon_name)
+
+
+def make_icon_button(text, icon_name, on_press,
+                     size_hint=(None, None), size=(dp(38), dp(30)),
+                     font_size='12sp',
+                     bg_color=None,
+                     fg_color=None,
+                     button_type='primary'):
+    """
+    Legacy API — creates icon button.
+    Now uses BorderButton with border.
+    
+    All old parameters still work:
+      - text (fallback if icon missing)
+      - icon_name
+      - on_press
+      - size (width, height)
+      - bg_color, fg_color (override theme)
+      - button_type (new)
+    """
+    width, height = size
+
+    # If user passed explicit colors, we need to override theme
+    # For now, we use button_type style (custom colors not fully supported in BorderButton)
+    widget = BorderButton(
+        text=text,
+        icon_name=icon_name,
+        on_press_callback=on_press,
+        style=button_type,
+        size=(width, height),
+        size_hint=size_hint,
+        height_dp=None,   # we pass size explicitly
+        width_dp=None,
+        icon_size_dp=min(width, height) - 6,
+        font_size=font_size,
+        align='center',
+        padding=(2, 2, 2, 2),
+    )
+
+    # Apply custom colors if given (override theme)
+    if bg_color is not None:
+        widget.bg_color = bg_color
+        widget._bg_color.rgba = bg_color
+    if fg_color is not None:
+        widget.fg_color = fg_color
+        # Re-apply to children
+        from kivy.uix.label import Label
+        from kivy.uix.image import Image
+        for child in widget.children:
+            if isinstance(child, Label):
+                child.color = fg_color
+            elif isinstance(child, Image):
+                child.color = fg_color
+
+    return widget
+
+
+class IconTextButton(BorderButton):
+    """
+    Legacy IconTextButton — wraps BorderButton.
+    Old code that did `IconTextButton(...)` still works.
+    """
+
+    def __init__(self, text='', icon_name='', on_press=None,
+                 height=dp(38), icon_size=dp(26),
+                 font_size='13sp',
+                 bg_color=None,
+                 fg_color=None,
+                 align='left',
+                 padding=(dp(8), dp(2), dp(8), dp(2)),
+                 button_type='primary',
+                 **kwargs):
+        # Convert old params to BorderButton
+        super().__init__(
+            text=text,
+            icon_name=icon_name,
+            on_press_callback=on_press,
+            style=button_type,
+            size_hint=(1, None),
+            height_dp=None,
+            size=(None, height),
+            icon_size_dp=icon_size,
+            font_size=font_size,
+            align=align,
+            padding=padding,
+            **kwargs
+        )
+
+        # Apply custom colors if given
+        if bg_color is not None:
+            self.bg_color = bg_color
+            self._bg_color.rgba = bg_color
+        if fg_color is not None:
+            self.fg_color = fg_color
+            from kivy.uix.label import Label
+            from kivy.uix.image import Image
+            for child in self.children:
+                if isinstance(child, Label):
+                    child.color = fg_color
+                elif isinstance(child, Image):
+                    child.color = fg_color
+
+    # Legacy methods
+    def set_text(self, value):
+        """Legacy set_text."""
+        super().set_text(value)
+
+    def set_bg_color(self, color):
+        """Legacy set_bg_color."""
+        self.bg_color = color
+        self._bg_color.rgba = color
+
+
+def make_icon_text_button(text, icon_name, on_press,
+                          height=dp(38),
+                          icon_size=dp(26),
+                          font_size='13sp',
+                          bg_color=None,
+                          fg_color=None,
+                          align='left',
+                          button_type='primary',
+                          width=None,
+                          **kwargs):
+    """
+    Legacy API — creates icon+text button.
+    Now uses BorderButton with border.
+    
+    Returns a widget with:
+      - icon + text
+      - border (from theme)
+      - hover state
+    """
+    widget = BorderButton(
+        text=text,
+        icon_name=icon_name,
+        on_press_callback=on_press,
+        style=button_type,
+        size_hint=(None, None) if width else (1, None),
+        size=(dp(width), height) if width else (None, height),
+        height_dp=None if height else None,
+        width_dp=width,
+        icon_size_dp=icon_size,
+        font_size=font_size,
+        align=align,
+        **kwargs
+    )
+
+    # Apply custom colors if given
+    if bg_color is not None:
+        widget.bg_color = bg_color
+        widget._bg_color.rgba = bg_color
+    if fg_color is not None:
+        widget.fg_color = fg_color
+        from kivy.uix.label import Label
+        from kivy.uix.image import Image
+        for child in widget.children:
+            if isinstance(child, Label):
+                child.color = fg_color
+            elif isinstance(child, Image):
+                child.color = fg_color
+
+    return widget
+
+
+# ============================================================
+# ================== RE-EXPORT button_manager ================
+# ============================================================
+# So old code can also do:
+#   from ui.icon_button import button_manager
+# (though it should import from ui.button_manager directly)
+
+__all__ = [
+    'get_icon_path',
+    'make_icon_button',
+    'make_icon_text_button',
+    'IconTextButton',
+    'button_manager',
+    'BorderButton',
+]

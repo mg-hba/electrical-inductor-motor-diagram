@@ -1,0 +1,87 @@
+[18:22:11.240] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[18:22:11.954] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[18:22:18.110] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[18:22:18.572] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[18:27:10.529] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[18:27:14.161] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[18:27:21.769] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[18:27:22.177] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[21:45:48.172] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[21:45:52.282] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[21:46:01.901] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[21:46:02.348] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:00:58.799] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:01:02.606] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:01:10.317] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:01:10.759] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:20:52.959] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:20:56.927] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:21:11.957] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:21:12.407] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:27:22.678] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:27:26.250] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:27:34.347] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:27:34.792] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:32:16.976] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:32:21.140] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:32:35.803] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:32:36.243] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:32:40.662] [ERROR] [MWD] [ERROR] [GlobalHook] UNCAUGHT_EXCEPTION:
+Traceback (most recent call last):
+  File "/storage/emulated/0/python/3phase_motor/kivy/0.1.3.2/main0.1.3.2.py", line 23, in <module>
+    MotorWindingApp().run()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/app.py", line 956, in run
+    runTouchApp()
+    ~~~~~~~~~~~^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/base.py", line 574, in runTouchApp
+    EventLoop.mainloop()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/base.py", line 339, in mainloop
+    self.idle()
+    ~~~~~~~~~^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/base.py", line 383, in idle
+    self.dispatch_input()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/base.py", line 334, in dispatch_input
+    post_dispatch_input(*pop(0))
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/base.py", line 263, in post_dispatch_input
+    listener.dispatch('on_motion', etype, me)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "kivy/_event.pyx", line 731, in kivy._event.EventDispatcher.dispatch
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/core/window/__init__.py", line 1709, in on_motion
+    self.dispatch('on_touch_down', me)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "kivy/_event.pyx", line 731, in kivy._event.EventDispatcher.dispatch
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/core/window/__init__.py", line 1726, in on_touch_down
+    if w.dispatch('on_touch_down', touch):
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "kivy/_event.pyx", line 731, in kivy._event.EventDispatcher.dispatch
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/uix/widget.py", line 589, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "kivy/_event.pyx", line 731, in kivy._event.EventDispatcher.dispatch
+  File "/data/user/0/ru.iiec.pydroid3/files/aarch64-linux-android/lib/python3.13/site-packages/kivy/uix/widget.py", line 589, in on_touch_down
+    if child.dispatch('on_touch_down', touch):
+       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "kivy/_event.pyx", line 731, in kivy._event.EventDispatcher.dispatch
+  File "/storage/emulated/0/python/3phase_motor/kivy/0.1.3.2/diagrams/base/diagram_base.py", line 422, in on_touch_down
+    return self.touch_handler.on_touch_down(touch)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/storage/emulated/0/python/3phase_motor/kivy/0.1.3.2/diagrams/base/touch_handler.py", line 43, in on_touch_down
+    if self._is_touch_on_floating_panel(touch):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TouchHandler' object has no attribute '_is_touch_on_floating_panel'
+[22:33:47.095] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:33:47.776] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:34:01.688] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:34:02.132] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:39:09.081] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:39:13.030] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:39:20.948] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:39:21.392] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:51:51.122] [INFO] [MWD] === DEBUG SESSION STARTED ===
+[22:51:54.943] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:52:01.982] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized
+[22:52:02.428] [DEBUG] [MWD] [DRAW] [Base] INIT: BaseMotorDiagram initialized

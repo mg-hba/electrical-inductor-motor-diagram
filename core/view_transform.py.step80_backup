@@ -1,0 +1,137 @@
+"""
+================================================================================
+File: core/view_transform.py
+Purpose: Cached world <-> screen transform with zoom undo/redo stacks.
+Version: 0.1.1
+================================================================================
+"""
+
+from utils.constants import ZOOM_HISTORY_SIZE
+
+
+class ViewTransform:
+
+    def __init__(self):
+        self.grid_x_min = 0
+        self.grid_y_min = 0
+        self.cell_size_px = 10.0
+        self.screen_scale = 1.0
+        self.offset_x = 0.0
+        self.offset_y = 0.0
+        self.margin_px = 30.0
+
+        self.page_width_px = 1
+        self.page_height_px = 1
+
+        # Grid layout in px (synced from diagram)
+        # These are the "position of grid origin in page pixels"
+        self.grid_x_px = 0.0
+        self.grid_y_px = 0.0
+        self.grid_w_px = 0.0
+        self.grid_h_px = 0.0
+        self.grid_x_max = 0
+        self.grid_y_max = 0
+
+        self._cache = {}
+        self._version = 0
+
+        self._undo_stack = []
+        self._redo_stack = []
+
+    def invalidate(self):
+        self._cache.clear()
+        self._version += 1
+
+    def world_to_screen(self, x, y):
+        """
+        Same formula as diagram_base.world_to_screen.
+        """
+        key = (round(x, 2), round(y, 2), self._version)
+        c = self._cache.get(key)
+        if c is not None:
+            return c
+
+        x_range = self.grid_x_max - self.grid_x_min
+        y_range = self.grid_y_max - self.grid_y_min
+
+        fraction_x = (x - self.grid_x_min) / max(x_range, 0.0001)
+        fraction_y = (y - self.grid_y_min) / max(y_range, 0.0001)
+
+        screen_x = self.grid_x_px + fraction_x * self.grid_w_px
+        screen_y = self.grid_y_px + fraction_y * self.grid_h_px
+
+        sx = screen_x * self.screen_scale + self.offset_x
+        sy = screen_y * self.screen_scale + self.offset_y
+
+        result = (sx, sy)
+        self._cache[key] = result
+        return result
+
+    def screen_to_world(self, sx, sy):
+        """
+        Reverse of world_to_screen — same formula as diagram.
+        """
+        # Reverse scale + offset
+        sx_unscaled = (sx - self.offset_x) / self.screen_scale
+        sy_unscaled = (sy - self.offset_y) / self.screen_scale
+
+        # Reverse grid position
+        fx = (sx_unscaled - self.grid_x_px) / max(self.grid_w_px, 0.0001)
+        fy = (sy_unscaled - self.grid_y_px) / max(self.grid_h_px, 0.0001)
+
+        x_range = self.grid_x_max - self.grid_x_min
+        y_range = self.grid_y_max - self.grid_y_min
+
+        x = self.grid_x_min + fx * x_range
+        y = self.grid_y_min + fy * y_range
+        return x, y
+
+    # ============================================================
+    # ================== ZOOM HISTORY ===========================
+    # ============================================================
+
+    def _state(self):
+        return (self.screen_scale, self.offset_x, self.offset_y)
+
+    def push_zoom_history(self):
+        state = self._state()
+        if self._undo_stack and self._undo_stack[-1] == state:
+            return
+        self._undo_stack.append(state)
+        if len(self._undo_stack) > ZOOM_HISTORY_SIZE:
+            self._undo_stack.pop(0)
+        self._redo_stack.clear()
+
+    def pop_zoom_history_back(self):
+        if not self._undo_stack:
+            return False
+        self._redo_stack.append(self._state())
+        if len(self._redo_stack) > ZOOM_HISTORY_SIZE:
+            self._redo_stack.pop(0)
+        scale, ox, oy = self._undo_stack.pop()
+        self.screen_scale = scale
+        self.offset_x = ox
+        self.offset_y = oy
+        self.invalidate()
+        return True
+
+    def pop_zoom_history_redo(self):
+        if not self._redo_stack:
+            return False
+        self._undo_stack.append(self._state())
+        scale, ox, oy = self._redo_stack.pop()
+        self.screen_scale = scale
+        self.offset_x = ox
+        self.offset_y = oy
+        self.invalidate()
+        return True
+
+    def clear_zoom_history(self):
+        self._undo_stack.clear()
+        self._redo_stack.clear()
+
+    def has_zoom_back(self):
+        return len(self._undo_stack) > 0
+
+    def has_zoom_redo(self):
+        return len(self._redo_stack) > 0

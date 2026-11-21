@@ -1,0 +1,221 @@
+==============================================================================
+STEP 77 — CONNECTION MODE DIAGNOSTIC
+==============================================================================
+
+This is READ-ONLY — no files will be changed.
+
+==============================================================================
+1. core/view_transform.py
+==============================================================================
+
+  Size: 3266 bytes
+  Has 'diagram.world_to_screen': False
+  Has 'grid_w_px': False
+
+  world_to_screen:
+  --------------------------------------------------------------------------
+  def world_to_screen(self, x, y):
+          key = (round(x, 2), round(y, 2), self._version)
+          c = self._cache.get(key)
+          if c is not None:
+              return c
+          sx = (self.margin_px +
+                (x - self.grid_x_min) * self.cell_size_px * self.screen_scale +
+                self.offset_x)
+          sy = (self.margin_px +
+                (y - self.grid_y_min) * self.cell_size_px * self.screen_scale +
+                self.offset_y)
+          result = (sx, sy)
+          self._cache[key] = result
+          return result
+  
+
+  screen_to_world:
+  --------------------------------------------------------------------------
+  def screen_to_world(self, sx, sy):
+          x = ((sx - self.margin_px - self.offset_x) /
+               (self.cell_size_px * self.screen_scale) + self.grid_x_min)
+          y = ((sy - self.margin_px - self.offset_y) /
+               (self.cell_size_px * self.screen_scale) + self.grid_y_min)
+          return x, y
+  
+      # ============================================================
+      # ================== ZOOM HISTORY ===========================
+      # ============================================================
+  
+
+==============================================================================
+2. diagrams/base/diagram_base.py
+==============================================================================
+
+  Size: 17236 bytes
+  Has 'world_to_px': False
+
+  world_to_screen:
+  --------------------------------------------------------------------------
+  def world_to_screen(self, world_x, world_y):
+          layout = self._layout_mm()
+          grid_x_mm, grid_y_mm, grid_w_mm, grid_h_mm = layout['grid']
+      
+          grid_x_px = mm_to_px(grid_x_mm)
+          grid_y_px = mm_to_px(grid_y_mm)
+          grid_w_px = mm_to_px(grid_w_mm)
+          grid_h_px = mm_to_px(grid_h_mm)
+      
+          x_range = self.GRID_x_max - self.GRID_x_min
+          y_range = self.GRID_y_max - self.GRID_y_min
+      
+          fraction_x = (world_x - self.GRID_x_min) / max(x_range, 0.0001)
+          fraction_y = (world_y - self.GRID_y_min) / max(y_range, 0.0001)
+      
+          screen_x_px = grid_x_px + fraction_x * grid_w_px
+          screen_y_px = grid_y_px + fraction_y * grid_h_px
+      
+          screen_x_px = screen_x_px * self.SCREEN_scale + self.SCREEN_offset_x
+          screen_y_px = screen_y_px * self.SCREEN_scale + self.SCREEN_offset_y
+          return screen_x_px, screen_y_px
+      ###################################
+      ##########end of world_to_screen###
+      ###################################
+      
+  
+  
+  
+  
+
+  [NOT FOUND] world_to_px
+  screen_to_world:
+  --------------------------------------------------------------------------
+  def screen_to_world(self, sx, sy):
+          layout = self._layout_mm()
+          grid_x_mm, grid_y_mm, grid_w_mm, grid_h_mm = layout['grid']
+  
+          grid_x_px = mm_to_px(grid_x_mm)
+          grid_y_px = mm_to_px(grid_y_mm)
+          grid_w_px = mm_to_px(grid_w_mm)
+          grid_h_px = mm_to_px(grid_h_mm)
+  
+          sx_unscaled = (sx - self.SCREEN_offset_x) / self.SCREEN_scale
+          sy_unscaled = (sy - self.SCREEN_offset_y) / self.SCREEN_scale
+  
+          fx = (sx_unscaled - grid_x_px) / max(grid_w_px, 0.0001)
+          fy = (sy_unscaled - grid_y_px) / max(grid_h_px, 0.0001)
+  
+          x_range = self.GRID_x_max - self.GRID_x_min
+          y_range = self.GRID_y_max - self.GRID_y_min
+  
+          x = self.GRID_x_min + fx * x_range
+          y = self.GRID_y_min + fy * y_range
+          return x, y
+  
+
+==============================================================================
+3. diagrams/base/zoom_controller.py — sync()
+==============================================================================
+
+  Size: 9620 bytes
+  Has 'self.view._diagram': False
+  Has 'self.view.grid_w_px': False
+
+  sync():
+  --------------------------------------------------------------------------
+  def sync(self):
+          d = self.diagram
+          self.view.grid_x_min = d.GRID_x_min
+          self.view.grid_y_min = d.GRID_y_min
+          self.view.cell_size_px = d.GRID_cell_size_px
+          self.view.screen_scale = d.SCREEN_scale
+          self.view.offset_x = d.SCREEN_offset_x
+          self.view.offset_y = d.SCREEN_offset_y
+          self.view.margin_px = 0
+          self.view.page_width_px = d.PAGE_width_px
+          self.view.page_height_px = d.PAGE_height_px
+          self.view.invalidate()
+  
+
+==============================================================================
+4. diagrams/base/touch_handler.py — connection parts
+==============================================================================
+
+  Size: 7355 bytes
+
+  on_touch_down — connection mode block:
+  --------------------------------------------------------------------------
+              if d.connection_mode_active():
+                  d.connection.clear_selection()
+          if d.connection_mode_active():
+              wx_raw, wy_raw = d.screen_to_world(*touch.pos)
+              shift = getattr(d.connection, 'shift_y', 0.0)
+              wx = wx_raw
+              wy = wy_raw - shift
+              if d.connection.pencil_mode:
+                  d._pencil_start = (wx, wy)
+                  d._pencil_current = (wx, wy)
+              if d.connection.select_box_mode:
+                  d._box_start = (wx, wy)
+                  d._box_current = (wx, wy)
+              hit = d.connection.handle_touch_down_world(
+                  wx, wy, d.SCREEN_scale, d.GRID_cell_size_px
+                      d._drag_start_world = (wx, wy)
+                      d.connection.apply_hit(hit)
+
+  on_touch_move — connection parts:
+  --------------------------------------------------------------------------
+              wx_raw, wy_raw = d.screen_to_world(*touch.pos)
+              shift = getattr(d.connection, 'shift_y', 0.0)
+              d.connection.move_point(d._drag_target, round(wx_raw),
+                                       round(wy_raw - shift))
+          if d._pencil_start is not None:
+              wx_raw, wy_raw = d.screen_to_world(*touch.pos)
+              shift = getattr(d.connection, 'shift_y', 0.0)
+              d._pencil_current = (wx_raw, wy_raw - shift)
+              wx_raw, wy_raw = d.screen_to_world(*touch.pos)
+              shift = getattr(d.connection, 'shift_y', 0.0)
+              d._box_current = (wx_raw, wy_raw - shift)
+
+==============================================================================
+5. diagrams/motor_common/diagram_connection.py
+==============================================================================
+
+  Size: 2792 bytes
+
+  handle_connection_touch_down:
+  --------------------------------------------------------------------------
+  def handle_connection_touch_down(diagram, touch):
+      if not diagram.connection.active:
+          return False
+      world_x, world_y = diagram.screen_to_world(*touch.pos)
+      result = diagram.connection.handle_touch_down_world(
+          world_x, world_y, diagram.SCREEN_scale, diagram.GRID_cell_size_px
+      )
+      if result:
+          diagram.connection.apply_hit(result)
+          diagram._rebuild_all()
+          update_phase_labels(diagram)
+          return True
+      return False
+
+  set_connection_mode:
+  --------------------------------------------------------------------------
+  def set_connection_mode(diagram, active):
+      diagram.connection.set_active(active)
+      if active:
+          diagram.connection.load_from_json(json_manager)
+      diagram._rebuild_all()
+  
+  
+
+==============================================================================
+6. FORMULA COMPARISON
+==============================================================================
+
+  [INFO] view_transform.world_to_screen uses internal formula
+  [WARN] view_transform.screen_to_world uses internal formula
+         This is likely MISMATCHED with world_to_screen
+         → Connection mode coordinates will be wrong
+
+==============================================================================
+DIAGNOSIS
+==============================================================================
+
+  ⚠️  Both use internal formulas — could be OK if formulas match

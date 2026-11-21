@@ -1,0 +1,13 @@
+{
+    "enabled_categories": {
+        "SYSTEM": true,
+        "ERROR": true,
+        "TOUCH": false,
+        "DRAW": true,
+        "EXPORT": true,
+        "CONFIG": true,
+        "PAPER": true,
+        "TABLE": true,
+        "PERFORMANCE": false
+    }
+}
